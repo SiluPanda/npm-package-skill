@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getSkillContent, getSkillMeta, getDefaultInstallPath, SKILL_PATH } from "../src/index.js";
+import { getSkillContent, getSkillMeta, parseSkillMeta, getDefaultInstallPath, SKILL_PATH } from "../src/index.js";
 import { existsSync } from "node:fs";
 
 describe("getSkillContent", () => {
@@ -42,5 +42,57 @@ describe("getDefaultInstallPath", () => {
   it("returns a path ending with .claude/skills/npm-package", () => {
     const installPath = getDefaultInstallPath();
     expect(installPath).toMatch(/\.claude\/skills\/npm-package$/);
+  });
+
+  it("falls back to USERPROFILE when HOME is not set", () => {
+    const origHome = process.env.HOME;
+    delete process.env.HOME;
+    process.env.USERPROFILE = "/mock/userprofile";
+    try {
+      const installPath = getDefaultInstallPath();
+      expect(installPath).toMatch(/\/mock\/userprofile\/\.claude\/skills\/npm-package$/);
+    } finally {
+      process.env.HOME = origHome;
+      delete process.env.USERPROFILE;
+    }
+  });
+
+  it("falls back to empty string when neither HOME nor USERPROFILE is set", () => {
+    const origHome = process.env.HOME;
+    const origProfile = process.env.USERPROFILE;
+    delete process.env.HOME;
+    delete process.env.USERPROFILE;
+    try {
+      const installPath = getDefaultInstallPath();
+      expect(installPath).toMatch(/\.claude\/skills\/npm-package$/);
+    } finally {
+      process.env.HOME = origHome;
+      if (origProfile) process.env.USERPROFILE = origProfile;
+    }
+  });
+});
+
+describe("parseSkillMeta", () => {
+  it("throws when frontmatter is missing", () => {
+    expect(() => parseSkillMeta("no frontmatter here")).toThrow("Could not parse skill frontmatter");
+  });
+
+  it("throws for empty string", () => {
+    expect(() => parseSkillMeta("")).toThrow("Could not parse skill frontmatter");
+  });
+
+  it("returns empty strings for missing fields", () => {
+    const meta = parseSkillMeta("---\nunknown: value\n---\n# Content");
+    expect(meta.name).toBe("");
+    expect(meta.description).toBe("");
+    expect(meta.argumentHint).toBe("");
+  });
+
+  it("parses valid frontmatter", () => {
+    const content = "---\nname: test-skill\ndescription: A test skill\nargument-hint: [arg]\n---\n# Content";
+    const meta = parseSkillMeta(content);
+    expect(meta.name).toBe("test-skill");
+    expect(meta.description).toBe("A test skill");
+    expect(meta.argumentHint).toBe("[arg]");
   });
 });

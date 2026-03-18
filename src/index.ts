@@ -26,12 +26,12 @@ export interface SkillMeta {
 }
 
 /**
- * Extracts the YAML frontmatter metadata from the skill file.
+ * Parses YAML frontmatter metadata from a skill markdown string.
  *
+ * @param content - Raw markdown content with YAML frontmatter
  * @returns Parsed skill metadata
  */
-export function getSkillMeta(): SkillMeta {
-  const content = getSkillContent();
+export function parseSkillMeta(content: string): SkillMeta {
   const match = /^---\n([\s\S]*?)\n---/.exec(content);
   if (!match?.[1]) {
     throw new Error("Could not parse skill frontmatter");
@@ -44,6 +44,15 @@ export function getSkillMeta(): SkillMeta {
   const argumentHint = /^argument-hint:\s*(.+)$/m.exec(frontmatter)?.[1]?.trim() ?? "";
 
   return { name, description, argumentHint };
+}
+
+/**
+ * Extracts the YAML frontmatter metadata from the skill file.
+ *
+ * @returns Parsed skill metadata
+ */
+export function getSkillMeta(): SkillMeta {
+  return parseSkillMeta(getSkillContent());
 }
 
 /**
