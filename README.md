@@ -5,7 +5,9 @@
 <img src="https://img.shields.io/npm/dt/npm-package-skill?color=brightgreen&label=downloads" alt="npm downloads" />
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill that scaffolds production-grade npm packages in seconds. One command sets up TypeScript, dual ESM/CJS output, testing, linting, CI/CD, and publishing configuration — so you can skip the boilerplate and start building.
+An AI coding agent skill that scaffolds production-grade npm packages in seconds. One command sets up TypeScript, dual ESM/CJS output, testing, linting, CI/CD, and publishing configuration — so you can skip the boilerplate and start building.
+
+Works with [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.com), [Windsurf](https://windsurf.com), [Codex](https://openai.com/index/codex), [Antigravity](https://antigravity.dev), and any AI coding agent that can follow markdown instructions.
 
 ## What You Get
 
@@ -24,13 +26,48 @@ Every package scaffolded by this skill includes:
 
 ## Install
 
-### Quick Install (npx)
+### Claude Code (Quick Install)
 
 ```bash
 npx npm-package-skill
 ```
 
 This copies the skill into `~/.claude/skills/npm-package/` so it's available in all your Claude Code sessions.
+
+### Cursor
+
+Copy the skill file into your Cursor rules directory:
+
+```bash
+mkdir -p ~/.cursor/rules
+cp skills/npm-package/SKILL.md ~/.cursor/rules/npm-package.md
+```
+
+Or add it as a project-level rule by copying to `.cursor/rules/npm-package.md` in your repo.
+
+### Windsurf
+
+Copy the skill file into your Windsurf rules:
+
+```bash
+cp skills/npm-package/SKILL.md ~/.windsurf/rules/npm-package.md
+```
+
+Or add it to your project as `.windsurfrules` or `.windsurf/rules/npm-package.md`.
+
+### Codex
+
+Copy the skill file so Codex can reference it:
+
+```bash
+cp skills/npm-package/SKILL.md AGENTS.md
+```
+
+Or reference it in your existing `AGENTS.md`.
+
+### Antigravity / Other Agents
+
+Copy `skills/npm-package/SKILL.md` into whichever directory your agent reads for instructions (e.g., project root or a rules/prompts directory). The skill is plain markdown — any agent that can follow structured instructions will work.
 
 ### Install via npm
 
@@ -39,19 +76,25 @@ npm install -g npm-package-skill
 npm-package-skill install
 ```
 
-### Manual Install
-
-Copy `skills/npm-package/SKILL.md` to `~/.claude/skills/npm-package/SKILL.md`.
-
 ## Usage
 
-Once installed, use the `/npm-package` slash command in Claude Code:
+### Claude Code
+
+Use the `/npm-package` slash command:
 
 ```
 /npm-package my-awesome-lib
 ```
 
-Claude will walk you through a brief discovery phase (package description, runtime target, test framework, license, etc.) and then scaffold a complete, verified, publish-ready package.
+### Cursor / Windsurf / Codex / Other Agents
+
+Paste or reference the skill content and ask:
+
+```
+Follow the npm-package skill to scaffold a package called my-awesome-lib
+```
+
+The agent will walk you through a brief discovery phase (package description, runtime target, test framework, license, etc.) and then scaffold a complete, verified, publish-ready package.
 
 ### What the Skill Does
 
