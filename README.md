@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/SiluPanda/npm-package-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/SiluPanda/npm-package-skill/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/npm-package-skill.svg)](https://www.npmjs.com/package/npm-package-skill)
+<img src="https://img.shields.io/npm/dt/npm-package-skill?color=brightgreen&label=downloads" alt="npm downloads" />
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill that scaffolds production-grade npm packages in seconds. One command sets up TypeScript, dual ESM/CJS output, testing, linting, CI/CD, and publishing configuration — so you can skip the boilerplate and start building.
