@@ -19,7 +19,7 @@ Every package scaffolded by this skill includes:
 | **Linting** | [ESLint](https://eslint.org) flat config with strict TypeScript rules |
 | **Formatting** | [Prettier](https://prettier.io) |
 | **Versioning** | [Changesets](https://github.com/changesets/changesets) for semantic versioning |
-| **CI/CD** | GitHub Actions testing Node 18/20/22 + publish dry-run on PRs |
+| **CI/CD** | GitHub Actions testing Node 20/22 + publish dry-run on PRs |
 | **Package exports** | Proper conditional `exports` map with types for both ESM and CJS |
 
 ## Install
